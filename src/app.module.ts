@@ -5,6 +5,8 @@ import { ConfigModule } from '@nestjs/config';
 import { databaseProvider } from './database.provider';
 import { RateModule } from './rate/rate.module';
 import { SubscriptionModule } from './subscription/subscription.module';
+import { EmailModule } from './email/email.module';
+import { MailerModule } from '@nestjs-modules/mailer';
 
 @Module({
   imports: [
@@ -13,6 +15,19 @@ import { SubscriptionModule } from './subscription/subscription.module';
     }),
     RateModule,
     SubscriptionModule,
+    EmailModule,
+    MailerModule.forRootAsync({
+      useFactory: () => ({
+        transport: {
+          host: 'smtp.gmail.com',
+          port: 465,
+          auth: {
+            user: process.env.MAIL_USER,
+            pass: process.env.MAIL_PASS,
+          },
+        },
+      }),
+    }),
   ],
   controllers: [AppController],
   providers: [AppService, databaseProvider],
