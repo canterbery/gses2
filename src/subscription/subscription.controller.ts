@@ -1,6 +1,12 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { SubscriptionService } from './subscription.service';
-import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBody,
+  ApiConsumes,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { SubscribeDto } from './dto/subscribe.dto';
 
 @Controller('subscription')
@@ -9,7 +15,13 @@ export class SubscriptionController {
   constructor(private readonly subscriptionService: SubscriptionService) {}
 
   @Post()
-  @ApiOperation({ summary: 'Підписати емейл на отримання поточного курсу' })
+  @ApiOperation({
+    summary: 'Підписати емейл на отримання поточного курсу',
+    description:
+      'Запит має перевірити, чи немає данної електронної адреси в поточній базі даних і, в разі її відсутності, записувати її.',
+    operationId: 'subscribe',
+  })
+  @ApiConsumes('application/json', 'application/x-www-form-urlencoded')
   @ApiBody({ type: SubscribeDto })
   @ApiResponse({
     status: 201,

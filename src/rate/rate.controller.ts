@@ -9,15 +9,21 @@ export class RateController {
   constructor(private readonly rateService: RateService) {}
 
   @Get()
-  @ApiOperation({ summary: 'Отримати поточний курс USD до UAH' })
+  @ApiOperation({
+    summary: 'Отримати поточний курс USD до UAH',
+    description:
+      'Запит має повертати поточний курс USD до UAH використовуючи будь-який third party сервіс з публічним АРІ',
+  })
   @ApiResponse({
     status: 200,
     description: 'Повертається актуальний курс USD до UAH',
+    schema: { type: 'number', example: '32.883' },
   })
   @ApiResponse({ status: 400, description: 'Invalid status value' })
-  async getCurrentRate(): Promise<RateObject> {
+  async getCurrentRate(): Promise<Number> {
     try {
-      return await this.rateService.getCurrentRate();
+      const { rate } = await this.rateService.getCurrentRate();
+      return rate;
     } catch (error) {
       throw error;
     }
