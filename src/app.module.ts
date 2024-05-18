@@ -7,12 +7,15 @@ import { RateModule } from './rate/rate.module';
 import { SubscriptionModule } from './subscription/subscription.module';
 import { EmailModule } from './email/email.module';
 import { MailerModule } from '@nestjs-modules/mailer';
+import { ScheduleModule } from '@nestjs/schedule';
+import { TasksService } from './task.service';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       envFilePath: ['../.env.dev', './.env'],
     }),
+    ScheduleModule.forRoot(),
     RateModule,
     SubscriptionModule,
     EmailModule,
@@ -30,7 +33,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
     }),
   ],
   controllers: [AppController],
-  providers: [AppService, databaseProvider],
+  providers: [AppService, databaseProvider, TasksService],
   exports: [databaseProvider],
 })
 export class AppModule {}
