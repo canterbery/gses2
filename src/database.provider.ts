@@ -1,4 +1,5 @@
 import { Sequelize } from 'sequelize-typescript';
+import { Subscription } from './subscription/entities/subscription.entity';
 
 export const databaseProvider = {
   provide: 'SEQUELIZE',
@@ -11,6 +12,8 @@ export const databaseProvider = {
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
     });
+
+    sequelize.addModels([Subscription]);
 
     await sequelize.sync();
     return sequelize;
