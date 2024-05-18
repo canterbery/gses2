@@ -16,6 +16,14 @@ export class SubscriptionService {
     });
   }
 
+  async findAll(): Promise<Subscription[]> {
+    return await this.subscriptionRepository.findAll({
+      attributes: {
+        exclude: ['createdAt', 'updatedAt'],
+      },
+    });
+  }
+
   async subscribe(email: string): Promise<Subscription> {
     const subscription = await this.findByEmail(email);
 

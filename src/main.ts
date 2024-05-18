@@ -17,7 +17,7 @@ async function bootstrap() {
     .addTag('subscription', 'Робота з підпискою')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('documentation', app, document);
+  SwaggerModule.setup('api/documentation', app, document);
 
   await app.listen(process.env.BACKEND_PORT);
 }
