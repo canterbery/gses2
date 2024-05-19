@@ -31,7 +31,7 @@ export class SubscriptionController {
     status: 409,
     description: 'Користувач з таким емейлом вже підписаний!',
   })
-  create(@Body() subscribeDto: SubscribeDto) {
+  subscribe(@Body() subscribeDto: SubscribeDto) {
     return this.subscriptionService.subscribe(subscribeDto.email);
   }
 }
