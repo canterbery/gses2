@@ -1,11 +1,15 @@
 import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
+import { SentMessageInfo } from 'nodemailer';
 
 @Injectable()
 export class EmailService {
   constructor(private mailerService: MailerService) {}
 
-  async sendEmail(email: string | string[], rate: number): Promise<any> {
+  async sendEmail(
+    email: string | string[],
+    rate: number,
+  ): Promise<SentMessageInfo> {
     return this.mailerService.sendMail({
       to: email,
       from: process.env.MAIL_USER,
