@@ -2,7 +2,7 @@ import { HttpService } from '@nestjs/axios';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { RateObject, RateResponse } from './lib/types/types.js';
 import { lastValueFrom } from 'rxjs';
-import { USD_R030_CODE } from './lib/constants/constants.js';
+import { USD_R030_CODE } from './lib/constants/constants';
 
 @Injectable()
 export class RateService {
