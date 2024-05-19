@@ -1,6 +1,7 @@
+import { REPOSITORY } from 'src/constants';
 import { Subscription } from './entities/subscription.entity';
 
 export const subscriptionProvider = {
-  provide: 'SUBSCRIPTION',
+  provide: REPOSITORY.SUBSCRIPTION,
   useValue: Subscription,
 };

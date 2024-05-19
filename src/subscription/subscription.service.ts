@@ -1,9 +1,11 @@
 import { ConflictException, Inject, Injectable } from '@nestjs/common';
 import { Subscription } from './entities/subscription.entity';
+import { REPOSITORY } from 'src/constants';
 
 @Injectable()
 export class SubscriptionService {
-  @Inject('SUBSCRIPTION') private subscriptionRepository: typeof Subscription;
+  @Inject(REPOSITORY.SUBSCRIPTION)
+  private subscriptionRepository: typeof Subscription;
 
   async findByEmail(email: string): Promise<Subscription | null> {
     return await this.subscriptionRepository.findOne({

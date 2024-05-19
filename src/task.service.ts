@@ -1,5 +1,5 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
-import { Cron } from '@nestjs/schedule';
+import { Cron, CronExpression } from '@nestjs/schedule';
 import { RateService } from './rate/rate.service';
 import { SubscriptionService } from './subscription/subscription.service';
 import { EmailService } from './email/email.service';
@@ -11,16 +11,23 @@ export class TasksService {
   @Inject() private subscriptionService: SubscriptionService;
   @Inject() private emailService: EmailService;
 
-  @Cron('* 10 * * * *')
+  @Cron(CronExpression.EVERY_DAY_AT_1PM)
   async handleCron() {
-    const { rate } = await this.rateService.getCurrentRate();
-    const subscribers = await this.subscriptionService.findAll();
+    try {
+      const { rate } = await this.rateService.getCurrentRate();
+      const subscribers = await this.subscriptionService.findAll();
 
-    if (subscribers.length > 0) {
-      const emails = subscribers.map((sub) => sub.email);
-      this.emailService.sendEmail(emails, rate);
+      if (subscribers.length > 0) {
+        const emails = subscribers.map((sub) => sub.email);
+        this.emailService.sendEmail(emails, rate);
+      }
+
+      this.logger.debug('Scheduled rate update completed.');
+    } catch (error) {
+      if (error instanceof Error) {
+        this.logger.error(error.message);
+      }
+      this.logger.error('Scheduled rate update failed');
     }
-
-    this.logger.debug('Called when the current second is 45');
   }
 }
